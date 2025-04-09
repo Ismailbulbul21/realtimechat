@@ -1,31 +1,33 @@
 import React from 'react';
-import { useAuth } from '../AuthContext';
+import { formatDistanceToNow } from 'date-fns';
 
-const ChatMessage = ({ message }) => {
-  const { user } = useAuth();
-  const isCurrentUser = user && message.user_id === user.id;
-
+const ChatMessage = ({ message, isCurrentUser }) => {
+  // Format the timestamp to a relative time string (e.g., "5 minutes ago")
+  const formattedTime = formatDistanceToNow(new Date(message.created_at), { addSuffix: true });
+  
   return (
-    <div className={`flex ${isCurrentUser ? 'justify-end' : 'justify-start'} mb-3 w-full`}>
-      <div
-        className={`py-2 px-3 sm:px-4 rounded-lg max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg break-words w-auto ${
-          isCurrentUser
-            ? 'bg-blue-500 text-white rounded-br-none'
-            : 'bg-gray-200 text-gray-800 rounded-bl-none'
-        }`}
-        style={{ wordWrap: 'break-word', maxWidth: '80%' }}
-      >
-        {!isCurrentUser && (
-          <div className="font-bold text-xs sm:text-sm text-gray-600 mb-1">
-            {message.username || 'Unknown User'}
+    <div className={`flex ${isCurrentUser ? 'justify-end' : 'justify-start'}`}>
+      <div className={`flex max-w-xs md:max-w-md lg:max-w-lg ${isCurrentUser ? 'flex-row-reverse' : 'flex-row'}`}>
+        {/* Message content */}
+        <div 
+          className={`mx-2 p-3 rounded-lg ${
+            isCurrentUser 
+              ? 'bg-blue-500 text-white' 
+              : 'bg-gray-200 text-gray-800'
+          }`}
+        >
+          {/* Username and time */}
+          <div className="flex items-baseline mb-1">
+            <span className={`font-medium text-sm ${isCurrentUser ? 'text-blue-100' : 'text-gray-600'}`}>
+              {isCurrentUser ? 'You' : 'Guest User'}
+            </span>
+            <span className={`ml-2 text-xs ${isCurrentUser ? 'text-blue-200' : 'text-gray-500'}`}>
+              {formattedTime}
+            </span>
           </div>
-        )}
-        <div className="text-sm sm:text-base">{message.content}</div>
-        <div className="text-xs mt-1 opacity-70 text-right">
-          {new Date(message.created_at).toLocaleTimeString([], {
-            hour: '2-digit',
-            minute: '2-digit',
-          })}
+          
+          {/* Message text */}
+          <p className="whitespace-pre-wrap break-words">{message.content}</p>
         </div>
       </div>
     </div>
