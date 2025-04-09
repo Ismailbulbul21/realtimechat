@@ -109,7 +109,7 @@ const Chat = () => {
 
   if (!user) {
     return (
-      <div className="flex flex-col h-screen">
+      <div className="flex flex-col h-screen w-full max-w-full">
         <div className="bg-blue-500 text-white py-4 px-4 shadow-md">
           <h1 className="text-xl font-bold">Realtime Chat</h1>
         </div>
@@ -121,13 +121,13 @@ const Chat = () => {
   }
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="bg-blue-500 text-white py-4 px-4 shadow-md">
+    <div className="flex flex-col h-screen w-full max-w-full">
+      <div className="bg-blue-500 text-white py-3 px-4 shadow-md">
         <h1 className="text-xl font-bold">Realtime Chat</h1>
         <p className="text-sm opacity-80">Logged in as: {user.username || 'Guest'}</p>
       </div>
       
-      <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+      <div className="flex-1 overflow-y-auto p-3 sm:p-4 bg-gray-50 w-full">
         {loading ? (
           <div className="flex items-center justify-center h-full">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
@@ -141,9 +141,11 @@ const Chat = () => {
             No messages yet. Be the first to send one!
           </div>
         ) : (
-          messages.map((message) => (
-            <ChatMessage key={message.id} message={message} />
-          ))
+          <div className="w-full max-w-full">
+            {messages.map((message) => (
+              <ChatMessage key={message.id} message={message} />
+            ))}
+          </div>
         )}
         <div ref={messagesEndRef} />
       </div>

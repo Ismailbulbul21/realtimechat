@@ -56,19 +56,19 @@ const ChatInput = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white border-t border-gray-200 px-4 py-3">
+    <form onSubmit={handleSubmit} className="bg-white border-t border-gray-200 px-4 py-3 w-full max-w-full">
       {error && (
         <div className="bg-red-100 text-red-700 p-2 mb-2 rounded">
           {error}
         </div>
       )}
-      <div className="flex items-center">
+      <div className="flex items-center w-full">
         <input
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type a message..."
-          className="flex-1 border border-gray-300 rounded-l-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="flex-1 border border-gray-300 rounded-l-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 w-full"
           disabled={isLoading || !user}
         />
         <button
